@@ -103,7 +103,8 @@ namespace ProductCatalog.Web.Controllers
             var viewModel = _mapper.Map<ProductViewModel>(product );
             return View(viewModel);
         }
-        [HttpDelete] 
+        [HttpDelete]
+        [AjaxCall]
         public IActionResult Delete(int id)
         {
             var product=_context.Products.Find(id);
