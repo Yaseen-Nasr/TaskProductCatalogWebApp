@@ -1,0 +1,76 @@
+﻿@model ProductFormViewModel
+
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h3 class="card-title">@(Model.Id.Equals(0) ? "Add" : "Edit") Product</h3>
+
+    </div>
+    <div class="card-body">
+
+        <form asp-action="@(Model?.Id > 0 ? "Edit" : "Create")" id="form">
+            @if (Model?.Id > 0)
+            {
+                <input type="hidden" asp-for="Id" />
+            }
+
+            <div class="mb-5">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control form-control-solid" placeholder="Name" asp-for="Name" />
+                    <label asp-for="Name"></label>
+                </div>
+                <span asp-validation-for="Name" class="text-danger d-block"></span>
+            </div>
+
+
+
+            <div class="mb-5">
+                <div class="form-floating mb-2">
+                    <select class="form-select form-select-solid js-select2" data-placeholder="Select Category" asp-for="CategoryId" asp-items="@Model.Categories">
+                        <option value="">Select category</option>
+                    </select>
+                    <label asp-for="CategoryId"></label>
+                </div>
+                <span asp-validation-for="CategoryId" class="text-danger d-block"></span>
+            </div>
+            <div class="mb-5">
+                <div class="form-floating mb-2">
+                    <input type="datetime-local" class="form-control form-control-solid " placeholder="dd-mm-yyyy" asp-format="{0:yyyy-MM-ddTHH:mm}" asp-for="StartDate" />
+                    <label asp-for="StartDate"></label>
+                </div>
+                <span asp-validation-for="StartDate" class="text-danger d-block"></span>
+            </div>
+            <div class="mb-5">
+                <label for="SelectedDurationType">Duration Type:</label>
+                @Html.DropDownListFor(model => model.DurationType, new SelectList(Enum.GetValues(typeof(DurationType))), "Select Duration Type", new { @class = "form-control" })
+            </div>
+            <div class="mb-5">
+                <div class="form-floating mb-2">
+                    <input type="number" class="form-control form-control-solid " placeholder="Duration" asp-for="Duration" />
+                    <label asp-for="Duration"></label>
+                </div>
+                <span asp-validation-for="Duration" class="text-danger d-block"></span>
+            </div>
+
+            <div class="mb-5">
+                <div class="form-floating mb-2">
+                    <input type="number" class="form-control form-control-solid " placeholder="Price" asp-for="Price" />
+                    <label asp-for="Price"></label>
+                </div>
+                <span asp-validation-for="Price" class="text-danger d-block"></span>
+            </div>
+            
+        </form>
+    </div>
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary" form="form">
+             
+                Save
+             
+        </button>
+        <a class="btn btn-light text-primary" asp-action="Index">Cancel</a>
+    </div>
+</div>
+
+@section Scripts { 
+    <partial name="_ValidationScriptsPartial" />
+}   

@@ -1,0 +1,66 @@
+﻿@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery antiforgery
+@model IEnumerable<ProductShortInfoViewModel>
+@{
+    ViewData["Title"] = "Products";
+    var categories = ViewBag.Categories as List<string> ?? new List<string>();
+}
+
+
+
+<div class="d-flex justify-content-between w-100 p-5 mb-10">
+    <div class="d-flex align-items-center">
+
+        @if (categories.Any())
+        {
+
+            <label for="categoryFilter" class="form-label">Filter by Category:</label>
+            <select id="categoryFilter" class="form-select">
+                <option value="">All</option>
+                @foreach (var category in categories)
+                {
+                    <option value="@category">@category</option>
+                }
+            </select>
+        }
+    </div>
+    @if (User.IsInRole(AppRoles.Admin))
+    {
+        <div>
+            <a asp-action="Create" class="btn btn-sm btn-primary">
+                Add
+            </a>
+        </div>
+    }
+</div>
+ 
+
+<div class="card">
+    <div class="card-body pt-0">
+        <div class="table-responsive">
+            <table class="table table-row table-row-gray-300 gy-2 align-middle">
+                <thead>
+                    <tr class="fw-bold fs-6 text-gray-800">
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+
+                        <th class="text-end">Detals </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model)
+                    {
+                        <partial name="_ProductRow" model="@product" />
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" name="__RequestVerificationToken" value="@antiforgery.GetAndStoreTokens(Context).RequestToken" />
+@section Scripts
+    {
+    <partial name="_ValidationScriptsPartial" />
+     <script src="~/js/products.js" asp-append-version="true"></script>  
+}

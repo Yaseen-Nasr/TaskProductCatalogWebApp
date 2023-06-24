@@ -1,0 +1,42 @@
+﻿ 
+
+@model ProductViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Product Details</h4>
+            <hr />
+            <dl class="row"> 
+                <dt class="col-sm-4">Name:</dt>
+                <dd class="col-sm-8">@Model.Name</dd>
+                <dt class="col-sm-4">Category:</dt>
+                <dd class="col-sm-8">@Model.Category</dd>
+                <dt class="col-sm-4">Creation Date:</dt>
+                <dd class="col-sm-8">@Model.CreationDate.ToString("yyyy-MM-dd")</dd>
+             @if (User.IsInRole(AppRoles.Admin))
+            {
+                <dt class="col-sm-4">Start Date:</dt>
+                <dd class="col-sm-8">@Model.StartDate.ToString("yyyy-MM-dd hh:mm tt")</dd>
+                <dt class="col-sm-4">Duration:</dt>
+                <dd class="col-sm-8">@Model.Duration (@Model.DurationType)</dd> 
+            }
+                <dt class="col-sm-4">Price:</dt>
+                <dd class="col-sm-8">@Model.Price</dd> 
+            </dl>
+
+            @if (User.IsInRole(AppRoles.Admin))
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-sm btn-primary me-3">Edit</a>
+                <a data-id="@Model.Id" class="btn btn-sm btn-danger me-3 delete-product">Delete</a>
+            }
+            
+        </div>
+    </div>
+</div>
+ 
+@section Scripts
+    {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/product-details.js" asp-append-version="true"></script>
+}
